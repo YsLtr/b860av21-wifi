@@ -1,0 +1,14 @@
+# Local build artifacts, never publish kernel binaries as portable drivers
+*.o
+*.ko
+*.mod
+*.mod.c
+*.cmd
+*.d
+*.dtb
+*.dtbo
+Module.symvers
+modules.order
+.tmp_versions/
+*.log
+__pycache__/

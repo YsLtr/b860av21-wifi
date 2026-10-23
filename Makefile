@@ -23,6 +23,7 @@ EXTRA_CFLAGS += -Wno-date-time	# Fix compile error && warning on gcc 4.9 and lat
 endif
 
 EXTRA_CFLAGS += -I$(src)/include
+EXTRA_CFLAGS += -include $(src)/include/rtw_compat.h
 
 EXTRA_LDFLAGS += --strip-debug
 
@@ -76,7 +77,7 @@ CONFIG_RTW_ADAPTIVITY_MODE = normal
 CONFIG_SIGNAL_SCALE_MAPPING = n
 CONFIG_80211W = y
 CONFIG_REDUCE_TX_CPU_LOADING = n
-CONFIG_BR_EXT = y
+CONFIG_BR_EXT = n
 CONFIG_TDLS = n
 CONFIG_WIFI_MONITOR = n
 CONFIG_MCC_MODE = n
@@ -157,7 +158,7 @@ CONFIG_PLATFORM_ARM_TCC8920_JB42 = n
 CONFIG_PLATFORM_ARM_TCC8930_JB42 = n
 CONFIG_PLATFORM_ARM_RK2818 = n
 CONFIG_PLATFORM_ARM_RK3066 = n
-CONFIG_PLATFORM_ARM_RK3188 = y
+CONFIG_PLATFORM_ARM_RK3188 = n
 CONFIG_PLATFORM_ARM_URBETTER = n
 CONFIG_PLATFORM_ARM_TI_PANDA = n
 CONFIG_PLATFORM_MIPS_JZ4760 = n
@@ -192,7 +193,7 @@ CONFIG_PLATFORM_HISILICON_HI3798 = n
 CONFIG_PLATFORM_NV_TK1 = n
 CONFIG_PLATFORM_NV_TK1_UBUNTU = n
 CONFIG_PLATFORM_RTL8197D = n
-CONFIG_PLATFORM_AML_S905 = n
+CONFIG_PLATFORM_AML_S905 = y
 CONFIG_PLATFORM_ZTE_ZX296716 = n
 ########### CUSTOMER ################################
 CONFIG_CUSTOMER_HUAWEI_GENERAL = n
@@ -2349,7 +2350,6 @@ rtk_core :=	core/rtw_cmd.o \
 		core/rtw_p2p.o \
 		core/rtw_rson.o \
 		core/rtw_tdls.o \
-		core/rtw_br_ext.o \
 		core/rtw_iol.o \
 		core/rtw_sreset.o \
 		core/rtw_btcoex_wifionly.o \
@@ -2364,6 +2364,10 @@ rtk_core :=	core/rtw_cmd.o \
 		core/rtw_rm_util.o \
 		core/efuse/rtw_efuse.o \
 		core/rtw_roch.o
+
+ifeq ($(CONFIG_BR_EXT), y)
+rtk_core += core/rtw_br_ext.o
+endif
 
 ifeq ($(CONFIG_SDIO_HCI), y)
 rtk_core += core/rtw_sdio.o

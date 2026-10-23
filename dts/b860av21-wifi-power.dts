@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+/dts-v1/;
+/plugin/;
+
+// Verified on the B860AV2.1 RTL8189FTV board with the ophub P212 base DTB.
+// GPIO offsets are controller-local, NOT Linux's dynamic global GPIO numbers.
+/ {
+    compatible = "amlogic,s905x", "amlogic,meson-gxl";
+    fragment@0 {
+        target-path = "/soc/bus@c8834000/pinctrl@4b0/bank@4b0";
+        __overlay__ {
+            wifi_pwr_hold {
+                gpio-hog;
+                gpios = <76 0>; // GPIODV_27, active high
+                output-high;
+                line-name = "wifi_pwr";
+            };
+        };
+    };
+};
